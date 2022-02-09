@@ -10,8 +10,8 @@ const squarestyle = {
   fontWeight: "500"
 }
 
-const Square = ({ value, onSelect }) => {
-  return <button style={squarestyle} onClick={onSelect}>{value}</button>;
+const Square = ({ value, onClick }) => {
+  return <button style={squarestyle} onClick={onClick}>{value}</button>;
 };
 
 export default Square;

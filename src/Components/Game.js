@@ -1,8 +1,8 @@
 import React from "react";
 import Board from "./Board";
 import { calculateWinner } from "../Checkwinner";
-import { useSelector , useDispatch } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { historyAction } from "../Redux/action";
 
 const divstyle = {
   width: "200px",
@@ -11,14 +11,15 @@ const divstyle = {
 
 const Game = () => {
   const historyData = useSelector((state) => state.history);
-  console.log('historyData11: ', historyData);
+  console.log("historyData11: ", historyData);
   const dispatch = useDispatch();
 
-  const winner = calculateWinner();
-
+  const winner = calculateWinner(historyData.history[historyData.stepNumber]);
 
   //  ********************************************************************************
   const handleClick = (i) => {
+    // console.log('i: ', i);
+
     const timeInhistory = historyData.history.slice(
       0,
       historyData.stepNumber + 1
@@ -29,38 +30,29 @@ const Game = () => {
     if (winner || rectangle[i]) return;
     rectangle[i] = historyData.xIsNext ? "x" : "o";
 
-    dispatch({
-      type: "REDUCER_ACTION",
-      payload: [...timeInhistory, rectangle] ,
-    })
-    
+    dispatch(
+      historyAction({
+        history: [...timeInhistory, rectangle],
+        xIsNext: !historyData.xIsNext,
+        stepNumber: timeInhistory.length,
+      })
+    );
   };
-  
 
   //******************************** */
-  const jumpto = () => {
-   
-
-  };
-
+  const jumpto = () => {};
 
   // *************************************
 
-  const renderMoves = () => {
-      
-  }
-
-
-
+  const renderMoves = () => {};
 
   return (
     <>
       <Board
         squares={historyData?.history[historyData?.stepNumber]}
-
         onClick={handleClick}
       />
-
+      
       <div style={divstyle}>
         <p>
           {winner
@@ -69,7 +61,6 @@ const Game = () => {
         </p>
         {renderMoves()}
       </div>
-
     </>
   );
 };
