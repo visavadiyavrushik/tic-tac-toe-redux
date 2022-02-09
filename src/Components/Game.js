@@ -7,19 +7,30 @@ import { historyAction, jumpAction } from "../Redux/action";
 const divstyle = {
   width: "200px",
   margin: "20px auto",
+  fontWeight: "500",
+};
+
+const btnstyle = {
+  width: "100px",
+  height: "30px",
+  margin: '2px',
+  background: "lightblue",
+  color:'black',
+  border: "2px solid red",
+  borderRadius : "4px"
 };
 
 const Game = () => {
   const historyData = useSelector((state) => state.history);
+  console.log('historyData: ', historyData);
 
-  console.log("historyData11: ", historyData);
   const dispatch = useDispatch();
 
   const winner = calculateWinner(historyData.history[historyData.stepNumber]);
 
   //  ********************************************************************************
   const handleClick = (i) => {
-    // console.log('i: ', i);
+    console.log('i: ', i);
 
     const timeInhistory = historyData.history.slice(
       0,
@@ -27,9 +38,12 @@ const Game = () => {
     );
     const current = timeInhistory[historyData.stepNumber];
     const rectangle = [...current];
+    console.log("?", rectangle);
 
     if (winner || rectangle[i]) return;
+    
     rectangle[i] = historyData.xIsNext ? "x" : "o";
+
 
     dispatch(
       historyAction({
@@ -61,6 +75,7 @@ const Game = () => {
       return (
         <li key={move}>
           <button
+            style={btnstyle}
             onClick={() => {
               jumpto(move);
             }}
