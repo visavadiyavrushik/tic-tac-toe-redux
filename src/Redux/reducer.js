@@ -16,7 +16,14 @@ export const historyReducer = (state = initialValue, action) => {
         stepNumber: action.payload.stepNumber,
       };
       return stateAction;
-      break;
+
+    case ActionTypes.JUMP_ACTION:
+      var jumpAction = {
+        ...state,
+        xIsNext: action.payload.xIsNext,
+        stepNumber: action.payload.stepNumber,
+      };
+      return jumpAction
 
     default:
       return state;

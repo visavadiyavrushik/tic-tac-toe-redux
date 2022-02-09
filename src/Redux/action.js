@@ -11,3 +11,13 @@ export const historyAction = (payload) => {
     };
   };
   
+
+  export const jumpAction = (payload) => {
+    // console.log('payload: ', payload);
+    
+    return {
+      type: ActionTypes.JUMP_ACTION,
+      payload: payload ,
+    };
+  };
+  

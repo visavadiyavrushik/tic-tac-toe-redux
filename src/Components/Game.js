@@ -2,7 +2,7 @@ import React from "react";
 import Board from "./Board";
 import { calculateWinner } from "../Checkwinner";
 import { useSelector, useDispatch } from "react-redux";
-import { historyAction } from "../Redux/action";
+import { historyAction, jumpAction } from "../Redux/action";
 
 const divstyle = {
   width: "200px",
@@ -11,6 +11,7 @@ const divstyle = {
 
 const Game = () => {
   const historyData = useSelector((state) => state.history);
+
   console.log("historyData11: ", historyData);
   const dispatch = useDispatch();
 
@@ -40,11 +41,36 @@ const Game = () => {
   };
 
   //******************************** */
-  const jumpto = () => {};
+  const jumpto = (step) => {
+    console.log("step: ", step);
+
+    dispatch(
+      jumpAction({
+        xIsNext: step % 2 === 0,
+        stepNumber: step,
+      })
+    );
+  };
 
   // *************************************
 
-  const renderMoves = () => {};
+  const renderMoves = () => {
+    return historyData.history.map((_step, move) => {
+      const destination = move ? `Go to move ${move}` : "Go to start";
+
+      return (
+        <li key={move}>
+          <button
+            onClick={() => {
+              jumpto(move);
+            }}
+          >
+            {destination}
+          </button>
+        </li>
+      );
+    });
+  };
 
   return (
     <>
@@ -52,7 +78,7 @@ const Game = () => {
         squares={historyData?.history[historyData?.stepNumber]}
         onClick={handleClick}
       />
-      
+
       <div style={divstyle}>
         <p>
           {winner
